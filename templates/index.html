@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GenieYasir - ChatBot</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Comic Neue", cursive, Arial, sans-serif;
+        background: linear-gradient(135deg, #f0e9ff, #f7f3fc);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+        user-select: none;
+        color: #3c3c3c;
+      }
+
+      .chat-wrapper {
+        background: #fffefc;
+        width: 100%;
+        max-width: 480px;
+        height: 82vh;
+        border-radius: 20px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08), inset 0 0 10px #f4e8ff;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid #dbd4e1;
+        position: relative;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #a890c3 0%, #7e6eaa 100%);
+        color: #fefefe;
+        padding: 22px 20px;
+        font-size: 1.7rem;
+        font-weight: 700;
+        text-align: center;
+        letter-spacing: 0.04em;
+        box-shadow: 0 3px 8px rgba(91, 78, 135, 0.3);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+      }
+      .subtext {
+        color: #7a5edc;
+        font-style: italic;
+        font-size: 1.1rem;
+        text-align: center;
+        /* margin-top: 6px;
+        margin-bottom: -10px; */
+        font-family: "Comic Neue", cursive;
+      }
+
+      .chat-box {
+        flex-grow: 1;
+        padding: 24px 18px;
+        overflow-y: auto;
+        background: #fcfbfc;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        font-size: 1.05rem;
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+        scrollbar-color: #b59cd9 #f7f3fc;
+      }
+
+      .chat-box::-webkit-scrollbar {
+        width: 7px;
+      }
+
+      .chat-box::-webkit-scrollbar-track {
+        background: #f7f3fc;
+        border-radius: 20px;
+      }
+
+      .chat-box::-webkit-scrollbar-thumb {
+        background-color: #b59cd9;
+        border-radius: 20px;
+        border: 2px solid #f7f3fc;
+      }
+
+      .message {
+        padding: 14px 20px;
+        border-radius: 24px;
+        max-width: 70%;
+        word-wrap: break-word;
+        line-height: 1.5;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
+        font-weight: 500;
+        position: relative;
+        animation: fadeSlideIn 0.3s ease forwards;
+      }
+
+      @keyframes fadeSlideIn {
+        0% {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .user {
+        background-color: #d6e7ff;
+        color: #1f3a93;
+        margin-left: auto;
+        text-align: right;
+        border-bottom-right-radius: 4px;
+      }
+
+      .bot {
+        background-color: #f4e8ff;
+        color: #5b4b8a;
+        margin-right: auto;
+        text-align: left;
+        border-bottom-left-radius: 4px;
+      }
+
+      .input-area {
+        display: flex;
+        border-top: 1px solid #e0dbf3;
+        padding: 14px 18px;
+        background: #fefefe;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        align-items: center;
+        gap: 10px;
+      }
+
+      input[type="text"] {
+        flex-grow: 1;
+        border: 2px solid #b59cd9;
+        border-radius: 32px;
+        padding: 14px 22px;
+        font-size: 1.1rem;
+        letter-spacing: 0.01em;
+        color: #5a4a99;
+        outline-offset: 2px;
+      }
+
+      input[type="text"]::placeholder {
+        font-style: italic;
+        color: #a899b6;
+      }
+
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #7a5edc;
+        box-shadow: 0 0 8px 2px rgba(122, 94, 220, 0.4);
+      }
+
+      button {
+        background: #7a5edc;
+        color: white;
+        border: none;
+        padding: 14px 28px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        border-radius: 32px;
+        cursor: pointer;
+        letter-spacing: 0.03em;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 3px 8px rgba(122, 94, 220, 0.5);
+      }
+
+      button:hover,
+      button:focus {
+        background-color: #684bcf;
+        outline: none;
+        box-shadow: 0 5px 15px rgba(104, 75, 207, 0.7);
+      }
+
+      @media (max-width: 768px) {
+        .chat-wrapper {
+          height: 88vh;
+          max-width: 100%;
+          margin: 0 8px;
+          border-radius: 16px;
+        }
+
+        .header {
+          font-size: 1.5rem;
+          padding: 20px 16px;
+        }
+
+        .chat-box {
+          padding: 20px 14px;
+          font-size: 1.02rem;
+        }
+
+        .input-area {
+          padding: 12px 14px;
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+          width: 100%;
+          margin-bottom: 8px;
+        }
+
+        button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-wrapper">
+      <div class="header">GenieYasir</div>
+
+      <p class="subtext">
+        তোমার <strong>বরিশালের বন্ধু</strong><br />
+        জিজ্ঞেস করো, হাসো, মজা করো
+      </p>
+
+      <div class="chat-box" id="chat-box"></div>
+      <div class="input-area">
+        <input type="text" id="input" placeholder="কী কইতে চাইস?" />
+        <button onclick="sendMessage()">পাঠাও</button>
+      </div>
+    </div>
+
+    <script>
+      function sendMessage() {
+        const input = document.getElementById("input");
+        const msg = input.value.trim();
+        if (msg === "") return;
+
+        appendMessage(msg, "user");
+        input.value = "";
+
+        fetch("/get", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ msg }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            appendMessage(data.reply, "bot");
+          })
+          .catch(() => {
+            appendMessage("সমস্যা হইছে, পরে আবার চেস্টা কর।", "bot");
+          });
+      }
+
+      function appendMessage(message, sender) {
+        const box = document.getElementById("chat-box");
+        const div = document.createElement("div");
+        div.className = "message " + sender;
+        div.innerText = message;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+      }
+    </script>
+  </body>
+</html>
