@@ -44,22 +44,31 @@
       .header {
         background: linear-gradient(135deg, #a890c3 0%, #7e6eaa 100%);
         color: #fefefe;
-        padding: 22px 20px;
-        font-size: 1.7rem;
+        padding: 20px;
+        font-size: 1.6rem;
         font-weight: 700;
         text-align: center;
         letter-spacing: 0.04em;
         box-shadow: 0 3px 8px rgba(91, 78, 135, 0.3);
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;
       }
+
+      .header img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+      }
+
       .subtext {
         color: #7a5edc;
         font-style: italic;
         font-size: 1.1rem;
         text-align: center;
-        /* margin-top: 6px;
-        margin-bottom: -10px; */
         font-family: "Comic Neue", cursive;
       }
 
@@ -222,7 +231,13 @@
   </head>
   <body>
     <div class="chat-wrapper">
-      <div class="header">GenieYasir</div>
+      <div class="header">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
+          alt="logo"
+        />
+        GenieYasir
+      </div>
 
       <p class="subtext">
         তোমার <strong>বরিশালের বন্ধু</strong><br />
@@ -232,13 +247,15 @@
       <div class="chat-box" id="chat-box"></div>
       <div class="input-area">
         <input type="text" id="input" placeholder="কী কইতে চাইস?" />
-        <button onclick="sendMessage()">পাঠাও</button>
+        <button id="sendBtn" onclick="sendMessage()">পাঠাও</button>
       </div>
     </div>
 
     <script>
+      const input = document.getElementById("input");
+      const sendBtn = document.getElementById("sendBtn");
+
       function sendMessage() {
-        const input = document.getElementById("input");
         const msg = input.value.trim();
         if (msg === "") return;
 
@@ -267,6 +284,19 @@
         box.appendChild(div);
         box.scrollTop = box.scrollHeight;
       }
+
+      
+      input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          sendMessage();
+        }
+      });
+
+     
+      sendBtn.addEventListener("contextmenu", function (event) {
+        event.preventDefault();
+        sendMessage();
+      });
     </script>
   </body>
 </html>
